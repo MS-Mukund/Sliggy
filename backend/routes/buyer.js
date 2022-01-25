@@ -3,11 +3,12 @@ var router = express.Router();
 
 // Load Buyer model
 const Buyer = require("../models/buyer_m");
+const Vendor = require("../models/vendor_m");
 
 // GET request 
 // Getting the buyer by his email
-router.get("/profile", function(req, res) {
-    var email = req.body.email;
+router.get("/bprofile/:email", function(req, res) {
+    const { email } = req.params;
 
     Buyer.findOne({ email }).then(buyers => {
 		// Check if buyers email exists
@@ -27,7 +28,7 @@ router.get("/profile", function(req, res) {
 });
 
 // edit buyer details 
-router.post("/edit", function(req, res) {
+router.post("/editbpr", function(req, res) {
     const { name, email, ContactNo, age, BatchName } = req.body;
 
     Buyer.findOne({ email }).then(buyers => {
@@ -66,16 +67,44 @@ router.post("/edit", function(req, res) {
     });
 });
 
+// delete buyer details
+router.delete("/deletebpr", function(req, res) {
+    const email = req.body.email;
+
+    Buyer.findOne({ email }).then(buyers => {
+        if (!buyers) {
+            res.send("Buyer does not exist");
+        }
+        else {
+            Buyer.deleteOne({ email }).then(buyers => { 
+            res.send("Buyer deleted");
+            })
+            .catch(err => {
+                console.log("Failed to delete buyer: " + err);
+            })
+        }
+    })
+});
+
 // POST request 
 // Add a buyer to db
-router.post("/register", (req, res) => {
+router.post("/bregister", (req, res) => {
     const newBuyer = new Buyer({
         name: req.body.name,
         email: req.body.email,
         ContactNo: req.body.ContactNo,
+        password: req.body.password,
         Age: req.body.Age,
-        BatchName: req.body.BatchName
+        BatchName: req.body.BatchName,
+        Favorites: []
     });
+
+    Vendor.findOne({ email: req.body.email }).then(vendors => {
+        if (vendors) {
+            res.status(400).send("Email already exists");
+            return null;
+        }
+    });    
 
     newBuyer.save()
         .then(buyers => {

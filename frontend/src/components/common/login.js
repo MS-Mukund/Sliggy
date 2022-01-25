@@ -1,17 +1,30 @@
 import React from 'react';
-import { Grid, Paper, Typography, Button, TextField, Avatar, Link, makeStyles } from '@material-ui/core';
+import { useState } from "react";
+import axios from "axios";
+import { Grid, Paper, Typography, Button, TextField, Avatar, Link } from '@material-ui/core';
 import LoginIcon from '@mui/icons-material/Login';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { red, orange } from '@mui/material/colors';
-import { useSearchParams } from 'react-router-dom';
-
+import { Navigate, useNavigate } from 'react-router-dom';
 import cake from '../img/login_img.jpg';
 
 const redTheme = createTheme({ palette: { primary: red } })
 const oTheme = createTheme({ palette: { primary: orange } })
 
 
-const Login=()=>{
+const Login=()=> {
+    
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const HandleEChange = (event) => { 
+        setEmail(event.target.value);
+    };
+
+    const HandlePChange = (event) => {
+        setPassword(event.target.value);
+    };
+
     const sign_in_s = {
         padding: '5vh 5vw',
         height: '70vh',
@@ -22,7 +35,13 @@ const Login=()=>{
         backgroundColor: 'orange'
     }
     const btnstyle={
-        margin: '5% auto'
+        margin: '5% auto',
+        backgroundColor: '#FFA500',
+        color: '#fff',
+        '&:hover': {
+          backgroundColor: '#FFA500',
+          color: '#fff',
+        },
     }
     const sign_up_s={
         margin: '10% auto'
@@ -33,20 +52,51 @@ const Login=()=>{
     }
 
     const HandleClick = () => {
-        console.log("Clicked");
+        Navigate('/whoareyou');
     }
+    
+  const resetInputs = () => {
+    setEmail("");
+    setPassword("");
+  };
 
-    const useStyles = makeStyles({
-        button: {
-          backgroundColor: '#FFA500',
-          color: '#fff',
-          '&:hover': {
-            backgroundColor: '#FFA500',
-            color: '#fff',
-        },
-      }})
+  const onSubmit = (event) => {
+    event.preventDefault();
 
-    const classes=useStyles();
+    const newLogin = {
+      email: email,
+      password: password,
+    };
+
+    console.log(newLogin);
+    console.log(email);
+    console.log(password);
+
+    axios
+      .post("http://localhost:4000/misc/login", newLogin)
+      .then((response) => {
+       console.log("Login Successful");
+       localStorage.setItem("IsBuyer", response.data[0]);
+
+       if( response.data[0] === 1)
+       {
+          navigate('/buyer');
+       }
+       else if( response.data[0] === 0)
+       {
+          navigate('/vendor');
+       }
+       else
+       {
+         alert("If you are neither a buyer nor vendor....then who are you? Hecker?");
+       }
+      })
+      .catch ((err) => {
+        alert(err);
+      });
+
+    resetInputs();
+  };
 
     return (
         <Grid align='center' >
@@ -57,21 +107,20 @@ const Login=()=>{
                     <h1>Hello, Sign In</h1>
                 </Grid>
                 
-                <TextField label='username' placeholder='Enter your username' required='true' fullWidth/>
-                <TextField label='password' placeholder='Enter password' type='password' required='true' fullWidth/>
+                <TextField label='Email'    onChange={HandleEChange} placeholder='Enter your email' required fullWidth/>
+                <TextField label='password' onChange={HandlePChange} placeholder='Enter password' type='password' required fullWidth/>
                 
                 {/* <ThemeProvider theme={redTheme}> */}
-                <Button type='submit' classes={classes.button} variant="outlined" color="primary" style={btnstyle}>Sign In</Button>
+                <Button type='submit' variant="outlined" color="primary" onClick={onSubmit} style={btnstyle}>Sign In</Button>
                 {/* </ThemeProvider> */}
 
-                <Typography variant='caption' style={sign_up_s} align='center' fullWidth> <br /> <b>New to Sliggy?  &ensp; </b>
-                    <Link href="#" OnClick="{HandleClick}" > Sign up</Link>
+                <Typography variant='caption' style={sign_up_s} align='center' fullwidth="true"> <br /> <b>New to Sliggy?  &ensp; </b>
+                    <Link href="/whoareyou" onClick={HandleClick} > Sign up</Link>
                 </Typography>
                 <br />
                 <img src={cake} style={img_s} alt="login_img" width='60%' height='40%' />
             </Paper>
-        </Grid>
-        
+        </Grid>        
     )
 }
 

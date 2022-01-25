@@ -3,10 +3,11 @@ var router = express.Router();
 
 // Load Vendor model
 const Vendor = require("../models/vendor_m");
+const Buyer = require("../models/buyer_m");
 
 // GET request 
 // Getting the buyer by his email
-router.get("/profile", function(req, res) {
+router.get("/vprofile", function(req, res) {
     var email = req.body.email;
 
     Buyer.findOne({ email }).then(vendors => {
@@ -26,37 +27,50 @@ router.get("/profile", function(req, res) {
     });
 });
 
-// edit buyer details 
-router.patch("/edit", function(req, res) {
+// edit vendor details 
+router.put("/editvpr", function(req, res) {
     var email = req.body.email;
 
-    Buyer.findOne({ email }).then(vendors => {
-		if (!vendors) {
-			return res.status(404).json({
-				error: "Vendor is not in the db",
-			});
+    Vendor.findOne({ email }).then(vendors => {
+        if (!vendors) {
+            res.send("Vendor does not exist");
         }
         else{
-            res.status(200).json(vendors);
+            // edit vendors details
+            
         }
-	}) 
+    })
     .catch(err => {
         console.log(err);
         res.status(400).send(err);
-    });
+    })
 });
 
 // POST request 
 // Add a vendor to db
-router.post("/register", (req, res) => {
+router.post("/vregister", (req, res) => {
     const newVendor = new Vendor({
         ManagerName: req.body.ManagerName,
         ShopName: req.body.ShopName,
         email: req.body.email,
         ContactNo: req.body.ContactNo,
+        password: req.body.password,
         OpeningTime: req.body.OpeningTime,
         ClosingTime: req.body.ClosingTime
     });
+    
+    if( newVendor.ManagerName === "" || newVendor.ShopName === "" || newVendor.email === "" || newVendor.ContactNo === "" || newVendor.OpeningTime === "" || newVendor.ClosingTime === "" )
+    {
+        res.status(401).send("Please fill all the fields");
+        return null;
+    }
+
+    Buyer.findOne({ email: newVendor.email }).then(vendors => {
+        if (vendors) {
+            res.status(402).send("Email already exists");
+        }
+    });
+
 
     newVendor.save()
         .then(vendors => {
@@ -64,7 +78,7 @@ router.post("/register", (req, res) => {
         })
         .catch(err => {
             console.log(err);
-            res.status(400).send(err);
+            res.status(403).send(err);
         });
 });
 

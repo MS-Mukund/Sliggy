@@ -11,15 +11,16 @@ var testAPIRouter = require("./routes/testAPI");
 var UserRouter = require("./routes/Users");
 var BuyerRouter = require("./routes/buyer");
 var VendorRouter = require("./routes/vendor");
+var MiscRouter = require("./routes/misc");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.all("*", (req,res) => {
-    res.status(404).send("<h1>404:Page Not Found</h1>");
-})
+// app.all("*", (req,res) => {
+//     res.status(404).send("<h1>404:Page Not Found</h1>");
+// })
 // Connection to MongoDB
 mongoose.connect('mongodb://127.0.0.1:27017/' + DB_NAME, { useNewUrlParser: true });
 const connection = mongoose.connection;
@@ -30,7 +31,7 @@ connection.once('open', function() {
 // setup API endpoints
 app.use("/testAPI", testAPIRouter );
 app.use("/user", UserRouter );
-
+app.use("/misc", MiscRouter);
 app.use("/buyer", BuyerRouter );
 app.use("/vendor", VendorRouter );
 

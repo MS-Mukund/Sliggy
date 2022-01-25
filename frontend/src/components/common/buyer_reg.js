@@ -17,6 +17,7 @@ const Buy_reg = (props) => {
   const [password, setPassword] = useState();
   const [age, setAge] = useState(0);
   const [BatchName, setBatchName] = useState("");
+  const [CPass, setCPass] = useState("");
 
   const onChangeUsername = (event) => {
     setName(event.target.value);
@@ -50,6 +51,10 @@ const Buy_reg = (props) => {
     setBatchName("");
   };
 
+  const onChangeCPass = (event) => {
+    setCPass(event.target.value);
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
 
@@ -62,13 +67,19 @@ const Buy_reg = (props) => {
       BatchName: BatchName
     };
 
+    if( password !== CPass ){
+      alert("Password does not match");
+      window.location.reload();
+    }
+
     axios
       .post("http://localhost:4000/user/register", newUser)
       .then((response) => {
-        alert("Created\t" + response.data.name);
+        alert("Created\t" + response.data);
         console.log(response.data);
       })
       .catch ((err) => {
+          Location.reload();
         alert(err);
       });
 
@@ -88,16 +99,16 @@ const Buy_reg = (props) => {
           <h1>Register</h1>
           <Typography variant="caption" style={{font_size:28}}> Note: you will be registering as a buyer</Typography>
         </Grid>
-        <form style={{'margin': '10px', padding: '10px'}} onSubmit={onSubmit}>
-          <TextField style={textStyle} fullWidth label='Name' placeholder="your good Name please" />
-          <TextField style={textStyle} fullWidth label='Email' placeholder="Enter your Email" />
-          <TextField style={textStyle} fullWidth label='Contact' placeholder="Enter your Contact" />
-          <TextField style={textStyle} fullWidth label='Password' placeholder="Enter your Password" type="password" />
-          <TextField style={textStyle} fullWidth label='Confirm Password' placeholder="Confirm the top-secret Password" type="password" />
-          <TextField style={textStyle} fullWidth label='Age' placeholder="how old are you" />
+        <form style={{'margin': '10px', padding: '10px'}} onSubmit={onSubmit} fullWidth>
+          <TextField style={textStyle} onChange={onChangeUsername}  fullWidth label='Name' placeholder="your good Name please" />
+          <TextField style={textStyle} onChange={onChangeEmail}     fullWidth label='Email' placeholder="Enter your Email" />
+          <TextField style={textStyle} onChange={onChangeContactNo} fullWidth label='Contact' placeholder="Enter your Contact" />
+          <TextField style={textStyle} onChange={onChangePassword}  fullWidth label='Password' placeholder="Enter your Password" type="password" />
+          <TextField style={textStyle} onChange={onChangeCPass}     fullWidth label='Confirm Password' placeholder="Confirm the top-secret Password" type="password" />
+          <TextField style={textStyle} onChange={onChangeAge}       fullWidth label='Age' placeholder="how old are you" />
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Which batch</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={BatchName} label="BatchName">
+            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={BatchName} onChange={onChangeBatchName} label="BatchName">
               <MenuItem value={"UG1"}>UG1</MenuItem>
               <MenuItem value={"UG2"}>UG2</MenuItem>
               <MenuItem value={"UG3"}>UG3</MenuItem>

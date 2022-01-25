@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// import Food from "./fooditems_m";
+
 const BuyerSchema = new Schema({
 	name: {
 		type: String,
@@ -36,7 +38,8 @@ const BuyerSchema = new Schema({
 	BatchName: {
 		type: String,
 		match: [/UG[12345]/, 'Invalid Batch Name']
-	}
+	}, 
+	Favorites: [{ type: Schema.Types.ObjectId, ref: 'Food' }]
 });
 
 module.exports = Buyer = mongoose.model("Buyer", BuyerSchema);

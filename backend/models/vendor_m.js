@@ -32,12 +32,16 @@ const VendorSchema = new Schema({
 		required: 'Password cannot be null'
 	},
 	OpeningTime : {
-		type: Date,
-		required: 'opening time is required'
+		type: Number,
+		required: 'opening time is required',
+		$gte: [0, 'invalid opening time'],
+		$lte: [1440, 'invalid opening time']
 	},
 	ClosingTime : {
-		type: Date,
-		required: 'closing time is required'
+		type: Number,
+		required: 'closing time is required',
+		$gte: [0, 'invalid closing time'],
+		$lte: [1440, 'invalid closing time']
 	}
 });
 
