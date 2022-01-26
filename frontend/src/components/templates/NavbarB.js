@@ -5,7 +5,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-const Navbar = () => {
+const NavbarB = () => {
   const navigate = useNavigate();
 
   return (
@@ -21,13 +21,13 @@ const Navbar = () => {
             Canteen Portal
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Button color="inherit" onClick={() => navigate("/vendor/users")}>
-            Users
+          <Button color="inherit" onClick={() => navigate("/users")}>
+            My orders
           </Button>
-          <Button color="inherit" onClick={() => navigate("/vendor/register")}>
-            Register
+          <Button color="inherit" onClick={() => navigate("/register")}>
+            Let's Eat!
           </Button>
-          <Button color="inherit" onClick={() => navigate("/vendor/profile")}>
+          <Button color="inherit" onClick={() => navigate("/buyer/profile")}>
             My Profile
           </Button>
         </Toolbar>
@@ -36,4 +36,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarB;

@@ -6,12 +6,9 @@ import { useNavigate } from 'react-router-dom';
 const WhoAreYou = () => {
     const navigate = useNavigate();
     const [UserType, setUserType ] = useState('');
-    const HandleChange = (e) => {
+    const HandleChange = (event) => { 
 
-        localStorage.setItem("Isbuyer", Number(e.target.value)); 
-        console.log(localStorage.getItem("Isbuyer"));
-
-        if( localStorage.getItem("Isbuyer") === 1 )
+        if( event.target.value === 1 )
         {
             navigate('/Buyer_r');
         }

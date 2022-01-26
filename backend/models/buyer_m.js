@@ -39,7 +39,11 @@ const BuyerSchema = new Schema({
 		type: String,
 		match: [/UG[12345]/, 'Invalid Batch Name']
 	}, 
-	Favorites: [{ type: Schema.Types.ObjectId, ref: 'Food' }]
+	Favorites: [{ type: Schema.Types.ObjectId, ref: 'Food' }], 
+	Wallet: {
+		type: Number,
+		$gte: ['0', 'invalid balance' ]
+	}
 });
 
 module.exports = Buyer = mongoose.model("Buyer", BuyerSchema);

@@ -13,7 +13,7 @@ router.get("/bprofile/:email", function(req, res) {
     Buyer.findOne({ email }).then(buyers => {
 		// Check if buyers email exists
 		if (!buyers) {
-			return res.status(404).json({
+			res.status(404).json({
 				error: "Buyer does not exist",
 			});
         }
@@ -96,13 +96,13 @@ router.post("/bregister", (req, res) => {
         password: req.body.password,
         Age: req.body.Age,
         BatchName: req.body.BatchName,
-        Favorites: []
+        Favorites: [], 
+        wallet: 0
     });
 
     Vendor.findOne({ email: req.body.email }).then(vendors => {
         if (vendors) {
             res.status(400).send("Email already exists");
-            return null;
         }
     });    
 

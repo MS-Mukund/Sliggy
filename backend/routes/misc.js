@@ -17,12 +17,10 @@ router.post("/login", (req, res) => {
         else {
             if( req.body.password === buyers.password ){
                 res.status(200).send([1]);
-                return buyers;
             }
             else
             {
                 res.status(400).send("Incorrect Buyer password");
-                return null;
             }
         }
 	});
@@ -34,12 +32,10 @@ router.post("/login", (req, res) => {
         else{
             if( req.body.password === vendors.password ){
                 res.status(200).send([0]);
-                return vendors;
             }
             else
             {
                 res.status(400).send("Incorrect Vendor password");
-                return null;
             }
         }
     });

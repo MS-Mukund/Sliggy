@@ -8,7 +8,7 @@ const Buyer = require("../models/buyer_m");
 
 // GET request 
 // Getting all the users
-router.get("/", function(req, res) {
+router.get("/vendor", function(req, res) {
     User.find(function(err, users) {
 		if (err) {
 			console.log(err);
@@ -20,7 +20,7 @@ router.get("/", function(req, res) {
 
 // POST request 
 // Add a user to db
-router.post("/register", (req, res) => {
+router.post("/vendor/register", (req, res) => {
     const newUser = new User({
         name: req.body.name,
         email: req.body.email,

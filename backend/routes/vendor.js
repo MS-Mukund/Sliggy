@@ -10,10 +10,10 @@ const Buyer = require("../models/buyer_m");
 router.get("/vprofile", function(req, res) {
     var email = req.body.email;
 
-    Buyer.findOne({ email }).then(vendors => {
+    Vendor.findOne({ email }).then(vendors => {
 		// Check if vendors email exists
 		if (!vendors) {
-			return res.status(404).json({
+			res.status(404).json({
 				error: "Vendor is not in the db",
 			});
         }
@@ -62,11 +62,10 @@ router.post("/vregister", (req, res) => {
     if( newVendor.ManagerName === "" || newVendor.ShopName === "" || newVendor.email === "" || newVendor.ContactNo === "" || newVendor.OpeningTime === "" || newVendor.ClosingTime === "" )
     {
         res.status(401).send("Please fill all the fields");
-        return null;
     }
 
-    Buyer.findOne({ email: newVendor.email }).then(vendors => {
-        if (vendors) {
+    Buyer.findOne({ email: newVendor.email }).then(buyers => {
+        if (buyers) {
             res.status(402).send("Email already exists");
         }
     });

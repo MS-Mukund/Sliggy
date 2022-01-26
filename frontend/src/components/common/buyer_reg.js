@@ -9,15 +9,18 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useNavigate  } from "react-router-dom";
 
 const Buy_reg = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [ContactNo, setContactNo] = useState(0);
-  const [password, setPassword] = useState();
+  const [password, setPassword] = useState("");
   const [age, setAge] = useState(0);
   const [BatchName, setBatchName] = useState("");
   const [CPass, setCPass] = useState("");
+
+  const navigate = useNavigate();
 
   const onChangeUsername = (event) => {
     setName(event.target.value);
@@ -67,19 +70,22 @@ const Buy_reg = (props) => {
       BatchName: BatchName
     };
 
+    console.log(newUser);
+  
     if( password !== CPass ){
       alert("Password does not match");
       window.location.reload();
     }
 
     axios
-      .post("http://localhost:4000/user/register", newUser)
+      .post("http://localhost:4000/buyer/bregister", newUser)
       .then((response) => {
-        alert("Created\t" + response.data);
         console.log(response.data);
+
+        // goto login page
+        navigate("/");
       })
       .catch ((err) => {
-          Location.reload();
         alert(err);
       });
 
@@ -99,7 +105,7 @@ const Buy_reg = (props) => {
           <h1>Register</h1>
           <Typography variant="caption" style={{font_size:28}}> Note: you will be registering as a buyer</Typography>
         </Grid>
-        <form style={{'margin': '10px', padding: '10px'}} onSubmit={onSubmit} fullWidth>
+        <form style={{'margin': '10px', padding: '10px'}} onSubmit={onSubmit}>
           <TextField style={textStyle} onChange={onChangeUsername}  fullWidth label='Name' placeholder="your good Name please" />
           <TextField style={textStyle} onChange={onChangeEmail}     fullWidth label='Email' placeholder="Enter your Email" />
           <TextField style={textStyle} onChange={onChangeContactNo} fullWidth label='Contact' placeholder="Enter your Contact" />
