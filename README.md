@@ -49,7 +49,7 @@ Mongo will be running on port 27017.
 ```
 cd backend/
 npm install
-npm start
+npm run dev
 ```
 
 * Run React Frontend:
