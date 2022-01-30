@@ -2,22 +2,29 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
-	Vendorname: {
+	Fid: { 
 		type: String,
-		required: true
-	},
-	Username: {
-		type: String,
-		required: true
-	},
-	FoodItem: {
-		type: String,
-		required: true
+		// ref: 'Food',
+		required: 'Food ID is required'
 	}, 
+	Bid: {
+		type: String,
+		// ref: 'Buyer',
+		required: 'Buyer ID is required'
+	},
+	VendorEmail: {
+		type: String,
+		// ref: 'Vendor',
+		required: 'Vendor ID is required'
+	},
 	PlacedTime: {
-		type: Date,
-		default: Date.now
-	}, 
+		type: Number,
+		required: 'Placed Time is required'
+	},
+	Fname: {
+		type: String,
+		required: 'Food Name is required'
+	},
 	Cost: {
 		type: Number,
 		$gt: [0, 'invalid cost'],

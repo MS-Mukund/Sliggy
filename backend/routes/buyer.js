@@ -39,6 +39,7 @@ router.put("/editbpr", function(req, res) {
         password: req.body.password,
         Age: req.body.Age,
         BatchName: req.body.BatchName,
+        Wallet: req.body.Wallet,
     };
 
     Buyer.findOneAndUpdate(filter, update, { new: true }).then( vendors => {
@@ -74,7 +75,7 @@ router.post("/bregister", (req, res) => {
         Age: req.body.Age,
         BatchName: req.body.BatchName,
         Favorites: [], 
-        wallet: 0
+        Wallet: 0
     });
 
     Vendor.findOne({ email: req.body.email }).then(vendors => {
@@ -91,6 +92,23 @@ router.post("/bregister", (req, res) => {
             console.log(err);
             res.status(400).send(err);
         });
+});
+
+// update buyer wallet
+router.put("/updatewallet/:id", function(req, res) {
+    const { id } = req.params;
+    const filter = { _id: id };
+    const update = {
+        Wallet: req.body.Wallet
+    };
+
+    Buyer.findOneAndUpdate(filter, update, { new: true }).then( buyers => {
+        res.json(buyers);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(403).send(err);
+    })
 });
 
 module.exports = router;

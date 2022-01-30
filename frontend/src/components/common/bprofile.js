@@ -55,7 +55,7 @@ const Buy_prof = (props) => {
           setEmail(response.data.email);
           setContactNo(Number(response.data.ContactNo) );
           setPassword(response.data.password);
-          setAge(response.data.Age);
+          setAge( Number(response.data.Age) );
           setBatchName(response.data.BatchName);
           
     })
@@ -103,8 +103,9 @@ const Buy_prof = (props) => {
       email: email,
       ContactNo: ContactNo,
       password: password,
-      age: age,
-      BatchName: BatchName
+      Age: age,
+      BatchName: BatchName, 
+      Wallet: 0
     };
 
     console.log(newUser);
@@ -139,8 +140,8 @@ const Buy_prof = (props) => {
           <Typography variant="caption" style={{font_size:28}}> Note: you will be registering as a buyer</Typography>
         </Grid>
         <form style={{'margin': '10px', padding: '10px'}} onSubmit={onSubmit}>
-          <TextField style={textStyle} value={name} onChange={onChangeUsername}  fullWidth label='Name' placeholder="your good Name please" />
-          <TextField style={textStyle} value={email} onChange={onChangeEmail}     fullWidth label='Email' placeholder="Enter your Email" />
+          <TextField style={textStyle} value={name} onChange={onChangeUsername} disabled fullWidth label='Name' placeholder="your good Name please" />
+          <TextField style={textStyle} value={email} onChange={onChangeEmail} disabled  fullWidth label='Email' placeholder="Enter your Email" />
           <TextField style={textStyle} value={ContactNo} onChange={onChangeContactNo} fullWidth label='Contact' placeholder="Enter your Contact" />
           <TextField style={textStyle} value={password} onChange={onChangePassword}  fullWidth label='Password' placeholder="Enter your Password" type="password" />
           <TextField style={textStyle} value={age} onChange={onChangeAge}       fullWidth label='Age' placeholder="how old are you" />

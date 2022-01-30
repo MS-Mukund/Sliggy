@@ -4,6 +4,7 @@ import "./App.css";
 import FoodList from "./components/common/foodlist";
 import UsersList from "./components/users/UsersList";
 import Home from "./components/common/Home";
+import HomeB from "./components/common/HomeB";
 import Navbar from "./components/templates/Navbar";
 import NavbarB from "./components/templates/NavbarB";
 import Profile from "./components/users/Profile";
@@ -17,6 +18,9 @@ import Food_reg from "./components/common/food_reg";
 import Food_Prof from "./components/common/food_profile";
 import Vend_prof from "./components/common/vprofile";
 import Buy_prof from "./components/common/bprofile";
+
+import MakeOrder from "./components/common/buyer_order";
+import Food_ProfB from "./components/common/food_profileB";
 
 localStorage.setItem("Isbuyer", -1);
 localStorage.setItem("Email", "");
@@ -64,9 +68,11 @@ function App() {
 
         {/* // buyer's layout and dashboard */}
         <Route path="/buyer" element={<LayoutB />}>
-          <Route path="/buyer" element={<Home />} />
+          <Route path="/buyer" element={<HomeB />} />
           <Route path="/buyer/users" element={<UsersList />} />
           <Route path="/buyer/profile" element={<Buy_prof />} />
+          <Route path="/buyer/make_order" element={<MakeOrder />} />
+          <Route path="/buyer/show" element={<Food_ProfB />} />
         </Route>
 
       </Routes>

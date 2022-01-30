@@ -39,6 +39,7 @@ const BuyerSchema = new Schema({
 	Favorites: [{ type: Schema.Types.ObjectId, ref: 'Food' }], 
 	Wallet: {
 		type: Number,
+		required: false,
 		$gte: ['0', 'invalid balance' ]
 	}
 });

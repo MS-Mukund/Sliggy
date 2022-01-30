@@ -36,7 +36,7 @@ router.put("/editvpr", function(req, res) {
         ShopName: req.body.ShopName,
         email: req.body.email,
         ContactNo: req.body.ContactNo,
-
+        wallet: req.body.wallet,
         password: req.body.password,
         OpeningTime: req.body.OpeningTime,
         ClosingTime: req.body.ClosingTime,

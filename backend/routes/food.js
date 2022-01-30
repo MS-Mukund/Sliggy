@@ -5,13 +5,25 @@ var router = express.Router();
 const Food = require("../models/fooditems_m");
 
 // GET request 
-// Getting the buyer by his email
+// Getting vendors items by his email
 router.get("/vItems/:email", function(req, res) {
     const { email } = req.params;
 
     Food.find({ VendorEmail: email }).then(items => {
         res.json(items);
 	})
+    .catch(err => {
+        console.log(err);
+        res.status(400).send(err);
+    });
+});
+
+// getting all food items
+router.get("/vItems", function(req, res) {
+    
+    Food.find().then(items => {
+        res.json(items);
+    })
     .catch(err => {
         console.log(err);
         res.status(400).send(err);
