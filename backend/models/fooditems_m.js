@@ -7,7 +7,7 @@ const FoodSchema = new Schema({
 		type: String,
 		required: true
 	},
-    VendorName: {
+    VendorEmail: {			// foreign key
         type: String,
         required: true
     },
@@ -23,7 +23,7 @@ const FoodSchema = new Schema({
 		default: true
 	},
 	FoodType: {
-		enum: ['Veg', 'Non-Veg']
+		type: ['veg', 'non-veg']
 	}, 
 	AddOns: [{
 	 	item: String,

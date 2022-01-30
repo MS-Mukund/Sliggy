@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// import Food from "./fooditems_m";
-
 const BuyerSchema = new Schema({
 	name: {
 		type: String,
@@ -12,7 +10,6 @@ const BuyerSchema = new Schema({
 		type: String,
 		unique: 'This email is already registered',
 		required: 'We wanna know your email',
-        // validate: [validateMail, 'Please provide a valid email'],
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email']
 	}, 
 	ContactNo : {

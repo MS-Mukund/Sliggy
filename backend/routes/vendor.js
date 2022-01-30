@@ -7,14 +7,14 @@ const Buyer = require("../models/buyer_m");
 
 // GET request 
 // Getting the buyer by his email
-router.get("/vprofile", function(req, res) {
-    var email = req.body.email;
+router.get("/vprofile/:email", function(req, res) {
+    const { email } = req.params;
 
     Vendor.findOne({ email }).then(vendors => {
 		// Check if vendors email exists
 		if (!vendors) {
-			res.status(404).json({
-				error: "Vendor is not in the db",
+			res.status(405).json({
+				message: req.body,
 			});
         }
         else{
@@ -23,26 +23,31 @@ router.get("/vprofile", function(req, res) {
 	})
     .catch(err => {
         console.log(err);
-        res.status(400).send(err);
+        res.send(err);
     });
 });
 
 // edit vendor details 
 router.put("/editvpr", function(req, res) {
-    var email = req.body.email;
+    const email = req.body.email;
+    const filter = { email: email };
+    const update = {
+        ManagerName: req.body.ManagerName,
+        ShopName: req.body.ShopName,
+        email: req.body.email,
+        ContactNo: req.body.ContactNo,
 
-    Vendor.findOne({ email }).then(vendors => {
-        if (!vendors) {
-            res.send("Vendor does not exist");
-        }
-        else{
-            // edit vendors details
-            
-        }
+        password: req.body.password,
+        OpeningTime: req.body.OpeningTime,
+        ClosingTime: req.body.ClosingTime,
+    };
+
+    Vendor.findOneAndUpdate(filter, update, { new: true }).then( vendors => {
+        res.json(vendors);
     })
     .catch(err => {
         console.log(err);
-        res.status(400).send(err);
+        res.status(403).send(err);
     })
 });
 
@@ -66,7 +71,7 @@ router.post("/vregister", (req, res) => {
 
     Buyer.findOne({ email: newVendor.email }).then(buyers => {
         if (buyers) {
-            res.status(402).send("Email already exists");
+            res.status(405).send("Email already exists");
         }
     });
 
@@ -79,6 +84,19 @@ router.post("/vregister", (req, res) => {
             console.log(err);
             res.status(403).send(err);
         });
+});
+
+// delete food item by id
+router.delete("/delete/:email", function(req, res) {
+    const { email } = req.params;
+
+    Vendor.deleteOne({ email: email }).then(vendors => {
+        res.json(vendors);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(502).send(err);
+    });
 });
 
 module.exports = router;

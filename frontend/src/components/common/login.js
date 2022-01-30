@@ -60,43 +60,99 @@ const Login=()=> {
     setPassword("");
   };
 
+  // const onSubmit = (event) => {
+  //   event.preventDefault();
+
+  //   const newLogin = {
+  //     email: email,
+  //     password: password,
+  //   };
+
+  //   // console.log(newLogin);
+  //   // console.log(email);
+  //   // console.log(password);
+
+  //   axios
+  //     .post("http://localhost:4000/misc/login", newLogin)
+  //     .then((response) => {
+  //      console.log("Login Successful");
+  //      localStorage.setItem("IsBuyer", response.data[0]);
+  //      localStorage.setItem("Email", email);
+      
+  //      console.log("Hello\t" + localStorage.getItem("Email"));
+  //      console.log("IsBuyer\t" + localStorage.getItem("IsBuyer"));
+
+  //      console.log(response.data);
+       
+  //      if( response.data[0] === 1)
+  //      {
+  //         navigate('/buyer');
+  //      }
+  //      else if( response.data[0] === 0)
+  //      {
+  //         navigate('/vendor');
+  //      }
+  //      else
+  //      {
+  //        alert("If you are neither a buyer nor vendor....then who are you? Hecker?");
+  //      }
+  //     })
+  //     .catch ((err) => {
+  //       alert(err);
+  //     });
+
+  //   resetInputs();
+  // };
   const onSubmit = (event) => {
     event.preventDefault();
 
-    const newLogin = {
-      email: email,
-      password: password,
+    const details = {
+        email: email,
+        password: password
     };
 
-    console.log(newLogin);
-    console.log(email);
-    console.log(password);
+    let buyer = true;
+    let vendor_buyer = true; 
+    console.log(buyer );
+  axios
+  .post("http://localhost:4000/misc/blogin", details)       
+  .then((response) => {
 
-    axios
-      .post("http://localhost:4000/misc/login", newLogin)
-      .then((response) => {
-       console.log("Login Successful");
-       localStorage.setItem("IsBuyer", response.data[0]);
+    console.log(response.data.status);
+    console.log(response.status);
+    if (response.data.status === "success") {
+      console.log(response.data);
+      localStorage.clear();
+      localStorage.setItem("Email", response.data.buyers.email);
+      localStorage.setItem("IsBuyer", 1);
+      //gotobuyer
+      navigate("/buyer");
+    /* }*/
+    }
+    if(response.data.status === "Buyer not found")
+    {
+      axios
+    .post("http://localhost:4000/misc/vlogin", details)
+    .then((response2) => {
+      if(response2.data.status === "Vendor not found") {
+        alert("Wrong Credentials");
+        }
+      else{
+      console.log(response2.data);
+      localStorage.clear();
+      localStorage.setItem("Email", response2.data.user.email);
+      localStorage.setItem("IsBuyer", 0);
 
-       if( response.data[0] === 1)
-       {
-          navigate('/buyer');
-       }
-       else if( response.data[0] === 0)
-       {
-          navigate('/vendor');
-       }
-       else
-       {
-         alert("If you are neither a buyer nor vendor....then who are you? Hecker?");
-       }
-      })
-      .catch ((err) => {
-        alert(err);
+      //gotovendor
+      navigate("/vendor");
+      vendor_buyer = false;
+      }
       });
+    }
+  });
+};
 
-    resetInputs();
-  };
+  // resetInputs();
 
     return (
         <Grid align='center' >

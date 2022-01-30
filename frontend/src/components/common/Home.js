@@ -5,10 +5,10 @@ const Home = (props) => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    setName("Dass TAs");
+    setName(localStorage.getItem("Email"));
   }, []);
 
-  return <div style={{ textAlign: "center" }}>Happy Coding - {name}</div>;
+  return <div style={{ textAlign: "center" }}>Welcome - {name}</div>;
 };
 
 export default Home;

@@ -27,63 +27,40 @@ router.get("/bprofile/:email", function(req, res) {
     });
 });
 
-// edit buyer details 
-router.post("/editbpr", function(req, res) {
-    const { name, email, ContactNo, age, BatchName } = req.body;
+// edit vendor details 
+router.put("/editbpr", function(req, res) {
+    const email = req.body.email;
+    const filter = { email: email };
+    const update = {
+        name: req.body.name,
+        email: req.body.email,
+        ContactNo: req.body.ContactNo,
 
-    Buyer.findOne({ email }).then(buyers => {
-		if (!buyers) {
-            res.send("Buyer does not exist");
-        }
-        else if( typeof name !== "undefined" )
-        {
-            buyers.name = name;
-        }
-        else if( typeof email !== "undefined" )
-        {
-            buyers.email !== email;
-        }
-        else if( typeof ContactNo !== "undefined" )
-        {
-            buyers.ContactNo = ContactNo;
-        }
-        else if( typeof age !== "undefined" )
-        {
-            buyers.age = age;
-        }
-        else if( typeof BatchName !== "undefined" )
-        {
-            buyers.BatchName = BatchName;
-        }
-        else
-        {
-            res.status(200).json(buyers);
-        }
-	}) 
-    Buyer.save(function (err) {
-        if(err)
-          console.log('db error', err)
-           // saved!
-    });
+        password: req.body.password,
+        Age: req.body.Age,
+        BatchName: req.body.BatchName,
+    };
+
+    Buyer.findOneAndUpdate(filter, update, { new: true }).then( vendors => {
+        res.json(vendors);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(403).send(err);
+    })
 });
 
-// delete buyer details
-router.delete("/deletebpr", function(req, res) {
-    const email = req.body.email;
+// delete food item by id
+router.delete("/delete/:email", function(req, res) {
+    const { email } = req.params;
 
-    Buyer.findOne({ email }).then(buyers => {
-        if (!buyers) {
-            res.send("Buyer does not exist");
-        }
-        else {
-            Buyer.deleteOne({ email }).then(buyers => { 
-            res.send("Buyer deleted");
-            })
-            .catch(err => {
-                console.log("Failed to delete buyer: " + err);
-            })
-        }
+    Buyer.deleteOne({ email: email }).then(buyers => {
+        res.json(buyers);
     })
+    .catch(err => {
+        console.log(err);
+        res.status(502).send(err);
+    });
 });
 
 // POST request 
