@@ -44,4 +44,41 @@ router.get("/get/:Bid", (req, res) => {
         });
 });
 
+// get orders by vendorid
+router.get("/vget/:VendorEmail", (req, res) => {
+    const { VendorEmail } = req.params;
+
+    Order.find({ VendorEmail: VendorEmail })
+        .then(orders => {
+            res.status(200).json(orders);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(401).send(err);
+        });
+});
+
+router.put("/changestat", (req,res) => {
+    const { _id } = req.body;
+    const filter = { _id: _id };
+    const update = {
+        Fid: req.body.Fid,
+        Bid: req.body.Bid,
+        VendorEmail: req.body.VendorEmail,
+        PlacedTime: req.body.PlacedTime,
+        Fname: req.body.Fname,
+        Cost: parseInt(req.body.Cost),
+        Quantity: parseInt(req.body.Quantity),
+
+        Status: req.body.Status,
+        Rating: req.body.Rating,        
+    }
+    Order.findOneAndUpdate(filter,update, {new: true} ).then( food => {
+        res.json(food);})
+        .catch(err => {
+            console.log(err);
+            res.status(501).send(err);
+        });
+});
+
 module.exports = router;

@@ -21,8 +21,11 @@ const Navbar = () => {
             Canteen Portal
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Button color="inherit" onClick={() => navigate("/vendor/users")}>
-            Users
+          <Button color="inherit" onClick={() => navigate("/vendor")}>
+            Home
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/vendor/view_orders")}>
+            View Orders
           </Button>
           <Button color="inherit" onClick={() => navigate("/vendor/Items")}>
             My Items

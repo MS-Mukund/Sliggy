@@ -23,6 +23,8 @@ import MakeOrder from "./components/common/buyer_order";
 import Food_ProfB from "./components/common/food_profileB";
 import My_orders from "./components/common/my_orders";
 
+import View_orders from "./components/common/view_orders";
+
 localStorage.setItem("Isbuyer", -1);
 localStorage.setItem("Email", "");
 
@@ -65,6 +67,7 @@ function App() {
           <Route path="/vendor/profile" element={<Vend_prof />} />
           <Route path="/vendor/add_item" element={<Food_reg />} />
           <Route path="/vendor/show" element={<Food_Prof />} />
+          <Route path="/vendor/view_orders" element={<View_orders />} />
         </Route>
 
         {/* // buyer's layout and dashboard */}
