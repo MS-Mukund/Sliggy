@@ -192,19 +192,14 @@ const Food_Prof = (props) => {
     event.preventDefault();
 
     axios
-    .delete( ("http://localhost:4000/food/delete/" + id) )
-    .then((response) => {
-      console.log(response.data);
-
-      // goto login page
-      navigate("/vendor/Items");
-    })
-    .catch ((err) => {
-      alert(err);
-    });
-
-  resetInputs();
-
+      .post( ("http://localhost:4000/buyer/fav/create" ) , {Fid: id, Bid: Bid} )
+      .then((response) => {
+        console.log(response.data);
+        alert("Added to Favourites");
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   

@@ -27,7 +27,7 @@ router.get("/bprofile/:email", function(req, res) {
     });
 });
 
-// edit vendor details 
+// edit buyer details 
 router.put("/editbpr", function(req, res) {
     const email = req.body.email;
     const filter = { email: email };
@@ -100,6 +100,24 @@ router.put("/updatewallet/:id", function(req, res) {
     const filter = { _id: id };
     const update = {
         Wallet: req.body.Wallet
+    };
+
+    Buyer.findOneAndUpdate(filter, update, { new: true }).then( buyers => {
+        res.json(buyers);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(403).send(err);
+    })
+});
+
+router.post("/fav/create", function(req, res) {
+    const { Fid, Bid } = req.body;
+    const filter = { _id: Bid };
+    
+    // push the food item id to favorites array
+    const update = {
+        $push: { Favorites: Fid }
     };
 
     Buyer.findOneAndUpdate(filter, update, { new: true }).then( buyers => {
