@@ -21,6 +21,7 @@ import Buy_prof from "./components/common/bprofile";
 
 import MakeOrder from "./components/common/buyer_order";
 import Food_ProfB from "./components/common/food_profileB";
+import My_orders from "./components/common/my_orders";
 
 localStorage.setItem("Isbuyer", -1);
 localStorage.setItem("Email", "");
@@ -73,6 +74,7 @@ function App() {
           <Route path="/buyer/profile" element={<Buy_prof />} />
           <Route path="/buyer/make_order" element={<MakeOrder />} />
           <Route path="/buyer/show" element={<Food_ProfB />} />
+          <Route path="/buyer/my_orders" element={<My_orders />} />
         </Route>
 
       </Routes>

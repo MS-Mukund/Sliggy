@@ -45,6 +45,7 @@ const Food_Prof = (props) => {
   const [quantity, setQuantity] = useState(0);
   const [Bid, setBid] = useState("");
   const [VendorEmail, setVendorEmail] = useState("");
+  const [VendorName, setVendorName] = useState("");
   const [balance, setBalance] = useState(0);
 
   const [selectedValue, setSelectedValue] = useState('');
@@ -67,7 +68,7 @@ const Food_Prof = (props) => {
       .then((response) => {
             
             console.log(response.data[0]);
-
+            localStorage.setItem("Vmail", response.data[0].VendorEmail);
             setVendorEmail(response.data[0].VendorEmail);
             setID(response.data[0]._id);
             setName(response.data[0].name);
@@ -88,6 +89,20 @@ const Food_Prof = (props) => {
           console.log(response.data);
           setBid(response.data._id);
           setBalance(response.data.Wallet);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      // get vendor info
+      axios
+      .get("http://localhost:4000/vendor/vprofile/" + localStorage.getItem("Vmail") )
+      .then((response) => {
+          console.log(response.data);
+          setVendorName(response.data.VendorName);
+      })
+      .catch((error) => {
+        console.log(error);
       });
 
   }, []);
@@ -100,6 +115,7 @@ const Food_Prof = (props) => {
     setQuantity(0);
 
     setSelectedValue('');
+    setVendorName("");
     setBid('');
     setVendorEmail("");
     setBalance(0);
@@ -137,6 +153,7 @@ const Food_Prof = (props) => {
         Fid: id,
         Bid: Bid,
         VendorEmail: VendorEmail,
+        VendorName: VendorName,
         Quantity: quantity,
         PlacedTime: time2,        
     };

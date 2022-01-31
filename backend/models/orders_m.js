@@ -36,7 +36,7 @@ const OrderSchema = new Schema({
 		required: true
 	},
 	Status: {
-		enum: ['Placed', 'Accepted', 'cooking', 'ready for pickup', 'completed', 'rejected']
+		type: Number
 	}, 
 	Rating: {
 		type: Number,

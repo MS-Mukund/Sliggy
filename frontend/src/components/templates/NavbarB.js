@@ -22,7 +22,10 @@ const NavbarB = () => {
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Button color="inherit" onClick={() => navigate("/buyer")}>
-            My orders
+            Home
+          </Button>
+          <Button color="inherit" onClick={() => navigate("/buyer/my_orders")}>
+            My Orders
           </Button>
           <Button color="inherit" onClick={() => navigate("/buyer/make_order")}>
             Let's Eat!

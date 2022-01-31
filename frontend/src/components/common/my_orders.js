@@ -23,14 +23,33 @@ import SearchIcon from "@mui/icons-material/Search";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
-const MakeOrder = (props) => {
+
+const AllStatus = [ 
+    "Placed",
+    "Accepted",
+    "Cooking",
+    "Ready for Pickup",
+    "Completed",
+    "Rejected"
+];
+const My_orders = (props) => {
   const [items, setItems] = useState([]);
   const navigate = useNavigate();
   const email = localStorage.getItem("Email");
 
   useEffect(() => {
+
     axios
-      .get("http://localhost:4000/food/vItems" )
+        .get("http://localhost:4000/buyer/bprofile/" + email )
+        .then((response) => {
+            localStorage.setItem("Bid", response.data._id);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+    axios
+      .get("http://localhost:4000/order/get/" + localStorage.getItem("Bid") )
       .then((response) => {
           if( response.data.length > 0 ){
             setItems(response.data);
@@ -52,7 +71,7 @@ const MakeOrder = (props) => {
   const onSubmit = (event) => {
     event.preventDefault();
 
-    navigate("/vendor/add_Item");
+    navigate("/buyer");
   }
 
   return (
@@ -64,21 +83,26 @@ const MakeOrder = (props) => {
               <TableHead>
                 <TableRow>
                   <TableCell><b>S NO.</b></TableCell>
-                  <TableCell><b>NAME</b></TableCell>
-                  <TableCell><b>VEG/NON-VEG</b></TableCell>
-                  <TableCell><b>PRICE</b></TableCell>
+                  <TableCell><b>VENDOR NAME</b></TableCell>
+                  <TableCell><b>ITEM</b></TableCell>
+                  <TableCell><b>COST</b></TableCell>
+                  <TableCell><b>QUANTITY</b></TableCell>
+                  <TableCell><b>PLACED TIME</b></TableCell>
+                  <TableCell><b>STATUS</b></TableCell>
+                  <TableCell><b>RATING</b></TableCell>  
                 </TableRow>
               </TableHead>
               <TableBody>
                 {items.map((food, ind2) => (
                   <TableRow key={ind2}>
                     <TableCell>{ind2}</TableCell>
-                    <TableCell><Link to={"/buyer/show"} onClick={() => {
-                      localStorage.setItem("Item_ID", food._id);
-                      navigate("/buyer/show");
-                    }}>{food.name}</Link></TableCell>
-                    <TableCell>{ String(food.FoodType) }</TableCell>
-                    <TableCell>{food.Price}</TableCell>
+                    <TableCell>{food.VendorName}</TableCell>
+                    <TableCell>{ String(food.Fname) }</TableCell>
+                    <TableCell>{food.Cost}</TableCell>
+                    <TableCell>{food.Quantity}</TableCell>
+                    <TableCell>{Math.floor(Number(food.PlacedTime)/60)}:{Number(food.PlacedTime) % 60 }</TableCell>
+                    <TableCell>{AllStatus[ parseInt(food.Status) ]}</TableCell>
+                    <TableCell>{food.Rating}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -90,4 +114,4 @@ const MakeOrder = (props) => {
   );
 };
 
-export default MakeOrder;
+export default My_orders;
