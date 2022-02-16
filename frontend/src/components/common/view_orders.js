@@ -41,7 +41,7 @@ const My_orders = (props) => {
 
    
     axios
-      .get("http://localhost:4000/order/vget/" + localStorage.getItem("Email") )
+      .get("/api/order/vget/" + localStorage.getItem("Email") )
       .then((response) => {
           if( response.data.length > 0 ){
             setItems(response.data);
@@ -107,7 +107,7 @@ const My_orders = (props) => {
                             };
 
                             axios
-                              .put("http://localhost:4000/order/changestat", Order)
+                              .put("/api/order/changestat", Order)
                               .then((response) => {
                                 console.log(response);
                                 alert("Order Status Changed");

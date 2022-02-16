@@ -78,7 +78,7 @@ const Buy_reg = (props) => {
     }
 
     axios
-      .post("http://localhost:4000/buyer/bregister", newUser)
+      .post("/api/buyer/bregister", newUser)
       .then((response) => {
         console.log(response.data);
 

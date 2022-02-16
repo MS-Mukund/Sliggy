@@ -48,7 +48,7 @@ const Buy_prof = (props) => {
 
   useEffect(() => {
     axios
-    .get("http://localhost:4000/buyer/bprofile/" + localStorage.getItem("Email") )
+    .get("/api/buyer/bprofile/" + localStorage.getItem("Email") )
     .then((response) => {
           console.log(response.data);
           setName(response.data.name);
@@ -79,7 +79,7 @@ const Buy_prof = (props) => {
     event.preventDefault();
 
     axios
-    .delete( ("http://localhost:4000/buyer/delete/" + email) )
+    .delete( ("/api/buyer/delete/" + email) )
     .then((response) => {
       console.log(response.data);
 
@@ -111,7 +111,7 @@ const Buy_prof = (props) => {
     console.log(newUser);
   
     axios
-      .put("http://localhost:4000/buyer/editbpr", newUser)
+      .put("/api/buyer/editbpr", newUser)
       .then((response) => {
         console.log(response.data);
 

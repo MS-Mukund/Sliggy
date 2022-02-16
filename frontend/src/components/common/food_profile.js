@@ -44,7 +44,7 @@ const Food_Prof = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/food/show/" + localStorage.getItem("Item_ID") )
+      .get("/api/food/show/" + localStorage.getItem("Item_ID") )
       .then((response) => {
             
             console.log(response.data);
@@ -125,7 +125,7 @@ const Food_Prof = (props) => {
     console.log(newFood);
   
     axios
-      .put( ("http://localhost:4000/food/edit/" + id) , newFood)
+      .put( ("/api/food/edit/" + id) , newFood)
       .then((response) => {
         console.log(response.data);
 
@@ -143,7 +143,7 @@ const Food_Prof = (props) => {
     event.preventDefault();
 
     axios
-    .delete( ("http://localhost:4000/food/delete/" + id) )
+    .delete( ("/api/food/delete/" + id) )
     .then((response) => {
       console.log(response.data);
 

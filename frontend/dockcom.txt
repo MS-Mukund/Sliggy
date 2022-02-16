@@ -1,0 +1,41 @@
+FROM node:17.3.1-buster as build
+# NOTE: node:16.14.0 is throwing an error
+
+# working directory is / for 
+WORKDIR /
+
+# copy the local package.json to container 
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+
+# run executes a process inside the container
+# RUN npm install
+
+# faster running of commands
+RUN npm ci --production
+
+
+# copy source code local to container
+COPY . .
+
+RUN npm run build
+
+# cmd specifies the instruction that has to run when container starts. Can be overriden by docker run. 
+# CMD ["npm", "run", "start"]
+
+# build the image
+# docker build -t sliggy-front-docker:0.1.0-prod .
+# docker run --rm -it --name sliggyf -p 3000:3000 sliggy-front-docker:0.1.0-dev
+
+FROM nginx:1.20.2-alpine as nginx
+
+# default loc for nginx is /usr/share/nginx/html
+COPY --from=build /build /usr/share/nginx/html
+
+# 
+EXPOSE 80
+
+# starts the process inside the container
+CMD ["nginx", "-g", "daemon off;"]
+
+## 

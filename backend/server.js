@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000;
 const DB_NAME = "tutorial"
+const MONGO_PORT = 27017;
 
 // routes
 var testAPIRouter = require("./routes/testAPI");
@@ -24,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     res.status(404).send("<h1>404:Page Not Found</h1>");
 // })
 // Connection to MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/' + DB_NAME, { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect('mongodb://db:' + MONGO_PORT + '/' + DB_NAME, { useNewUrlParser: true, useUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once('open', function() {
     console.log("MongoDB database connection established successfully !");

@@ -23,7 +23,7 @@ const HomeB = (props) => {
     setEmail(localStorage.getItem("Email"));
 
     axios
-    .get("http://localhost:4000/buyer/bprofile/" + localStorage.getItem("Email") )
+    .get("/api/buyer/bprofile/" + localStorage.getItem("Email") )
     .then((response) => {
           console.log(response.data);
           setName(response.data.name);
@@ -68,7 +68,7 @@ const HomeB = (props) => {
     console.log(newUser);
   
     axios
-      .put("http://localhost:4000/buyer/editbpr", newUser)
+      .put("/api/buyer/editbpr", newUser)
       .then((response) => {
         console.log(response.data);
 

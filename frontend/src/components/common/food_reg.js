@@ -114,7 +114,7 @@ const Food_reg = (props) => {
     console.log(newFood);
   
     axios
-      .post("http://localhost:4000/food/newFood", newFood)
+      .post("/api/food/newFood", newFood)
       .then((response) => {
         console.log(response.data);
 

@@ -117,7 +117,7 @@ const Vend_reg = (props) => {
     };
 
     axios
-      .post("http://localhost:4000/vendor/vregister", newVendor)
+      .post("/api/vendor/vregister", newVendor)
       .then((response) => {
         navigate("/");
       })

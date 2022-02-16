@@ -64,7 +64,7 @@ const Food_Prof = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/food/show/" + localStorage.getItem("Item_ID") )
+      .get("/api/food/show/" + localStorage.getItem("Item_ID") )
       .then((response) => {
             
             console.log(response.data[0]);
@@ -84,7 +84,7 @@ const Food_Prof = (props) => {
 
       // get buyer info
       axios
-      .get("http://localhost:4000/buyer/bprofile/" + localStorage.getItem("Email") ) 
+      .get("/api/buyer/bprofile/" + localStorage.getItem("Email") ) 
       .then((response) => {
           console.log(response.data);
           setBid(response.data._id);
@@ -96,7 +96,7 @@ const Food_Prof = (props) => {
 
       // get vendor info
       axios
-      .get("http://localhost:4000/vendor/vprofile/" + localStorage.getItem("Vmail") )
+      .get("/api/vendor/vprofile/" + localStorage.getItem("Vmail") )
       .then((response) => {
           console.log(response.data);
           setVendorName(response.data.VendorName);
@@ -162,13 +162,13 @@ const Food_Prof = (props) => {
 
     // update buyer wallet
     axios
-    .put("http://localhost:4000/buyer/updatewallet/" + Bid, { Wallet: balance - price*quantity } )
+    .put("/api/buyer/updatewallet/" + Bid, { Wallet: balance - price*quantity } )
     .then((response) => {
         console.log(response.data);
     });
   
     axios
-      .post( ("http://localhost:4000/order/create" ) , newOrder)
+      .post( ("/api/order/create" ) , newOrder)
       .then((response) => {
         console.log(response.data);
         alert("Order Placed");
@@ -178,7 +178,7 @@ const Food_Prof = (props) => {
       .catch ((err) => {
         // update buyer wallet
         // axios
-        // .put("http://localhost:4000/buyer/updatewallet/" + Bid, { Wallet: balance + price*quantity } )
+        // .put("/api/buyer/updatewallet/" + Bid, { Wallet: balance + price*quantity } )
         // .then((response) => {
         //     console.log(response.data);
         // });
@@ -192,7 +192,7 @@ const Food_Prof = (props) => {
     event.preventDefault();
 
     axios
-      .post( ("http://localhost:4000/buyer/fav/create" ) , {Fid: id, Bid: Bid} )
+      .post( ("/api/buyer/fav/create" ) , {Fid: id, Bid: Bid} )
       .then((response) => {
         console.log(response.data);
         alert("Added to Favourites");

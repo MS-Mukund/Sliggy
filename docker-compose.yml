@@ -1,0 +1,66 @@
+version: '3'
+services:
+  db: 
+    image: mongo
+    # container_name: database
+    ports:
+      - 27017:27017
+    volumes:
+      - /data/db
+    # environment: 
+    #   PUID: 1000
+    #   PGID: 1000    
+    restart: always
+
+  frontend:
+    # image: sliggy-front-docker 
+    # container_name: sliggyf
+    command: npm start
+    ports:
+      - 3000:3000
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/src:/usr/app/src
+      - ./frontend/public:/usr/app/public
+    depends_on:
+      - backend
+    restart: always
+    environment:
+      - REACT_APP_SERVER=http://localhost:4000
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    tty: true
+    
+  backend:
+    # image: sliggy-back-docker
+    # container_name: sliggyb
+    command: npm start
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/usr/app/src
+    ports:
+      - 4000:4000
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MONGO_URI=mongodb://db:27017
+      - CLIENT=http://localhost:3000
+    
+  nginx: 
+    # image: nginx
+    # container_name: nginx
+    ports:
+      - 3050:80
+    # build nginx from .conf file 
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile       
+    depends_on:
+      - frontend
+      - backend
+    restart: always

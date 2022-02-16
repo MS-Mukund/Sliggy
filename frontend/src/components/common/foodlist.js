@@ -30,7 +30,7 @@ const FoodList = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/food/vItems/" + email )
+      .get("/api/food/vItems/" + email )
       .then((response) => {
           if( response.data.length > 0 ){
             setItems(response.data);

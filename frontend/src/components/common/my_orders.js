@@ -40,7 +40,7 @@ const My_orders = (props) => {
   useEffect(() => {
 
     axios
-        .get("http://localhost:4000/buyer/bprofile/" + email )
+        .get("/api/buyer/bprofile/" + email )
         .then((response) => {
             localStorage.setItem("Bid", response.data._id);
         })
@@ -49,7 +49,7 @@ const My_orders = (props) => {
         });
 
     axios
-      .get("http://localhost:4000/order/get/" + localStorage.getItem("Bid") )
+      .get("/api/order/get/" + localStorage.getItem("Bid") )
       .then((response) => {
           if( response.data.length > 0 ){
             setItems(response.data);

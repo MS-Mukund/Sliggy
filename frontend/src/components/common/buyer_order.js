@@ -30,7 +30,7 @@ const MakeOrder = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/food/vItems" )
+      .get("/api/food/vItems" )
       .then((response) => {
           if( response.data.length > 0 ){
             setItems(response.data);

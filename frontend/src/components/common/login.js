@@ -73,7 +73,7 @@ const Login=()=> {
   //   // console.log(password);
 
   //   axios
-  //     .post("http://localhost:4000/misc/login", newLogin)
+  //     .post("/api/misc/login", newLogin)
   //     .then((response) => {
   //      console.log("Login Successful");
   //      localStorage.setItem("IsBuyer", response.data[0]);
@@ -115,7 +115,7 @@ const Login=()=> {
     let vendor_buyer = true; 
     console.log(buyer );
   axios
-  .post("http://localhost:4000/misc/blogin", details)       
+  .post("/api/misc/blogin", details)       
   .then((response) => {
 
     console.log(response.data.status);
@@ -132,7 +132,7 @@ const Login=()=> {
     if(response.data.status === "Buyer not found")
     {
       axios
-    .post("http://localhost:4000/misc/vlogin", details)
+    .post("/api/misc/vlogin", details)
     .then((response2) => {
       if(response2.data.status === "Vendor not found") {
         alert("Wrong Credentials");

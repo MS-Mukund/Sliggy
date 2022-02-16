@@ -28,7 +28,7 @@ const Vend_prof = (props) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/vendor/vprofile/" + localStorage.getItem("Email") )
+      .get("/api/vendor/vprofile/" + localStorage.getItem("Email") )
       .then((response) => {
             console.log(response.data);
 
@@ -134,7 +134,7 @@ const Vend_prof = (props) => {
     
 
     axios
-      .put( ("http://localhost:4000/vendor/editvpr") , newVendor)
+      .put( ("/api/vendor/editvpr") , newVendor)
       .then((response) => {
         console.log(response.data);
 
@@ -152,7 +152,7 @@ const Vend_prof = (props) => {
     event.preventDefault();
 
     axios
-    .delete( ("http://localhost:4000/vendor/delete/" + email) )
+    .delete( ("/api/vendor/delete/" + email) )
     .then((response) => {
       console.log(response.data);
 
